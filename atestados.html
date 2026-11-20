@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formación, Títulos y Certificaciones</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+ <header id="header" class="header dark-background d-flex flex-column">
+    <i class="header-toggle d-xl-none bi bi-list"></i>
+
+    <div class="profile-img">
+      <img src="assets/img/my-profile-img.jpg" alt="" class="img-fluid rounded-circle">
+    </div>
+
+    <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <!-- <img src="assets/img/logo.png" alt=""> -->
+      <h1 class="sitename">David Rivera</h1>
+    </a>
+
+    <div class="social-links text-center">
+
+      <a href="https://www.facebook.com/profile.php?id=61559491891516"  class="facebook" target="_blank"><i class="bi bi-facebook"></i></a>
+
+      <a href="https://www.linkedin.com/in/david-rivera-b46480195/" class="linkedin" target="_blank"><i class="bi bi-linkedin"></i></a>
+    </div>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+       <li><a href="index.html#Inicio" class="active"><i class="bi bi-house navicon"></i> Inicio</a></li>
+        <li><a href="index.html#about"><i class="bi bi-person navicon"></i> Acerca</a></li>
+        <li><a href="index.html#resume"><i class="bi bi-file-earmark-text navicon"></i> Hoja de Vida</a></li>
+        <li><a href="index.html#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
+        <li><a href="index.html#services"><i class="bi bi-hdd-stack navicon"></i> Servicios</a></li>
+       <li><a href="atestados.html"><i class="bi bi-award navicon"></i> Atestados</a></li>
+      
+        </li>
+
+      </ul>
+    </nav>
+
+  </header>
+
+  <a href="index.html" class="mobile-back-btn">
+    <i class="bi bi-arrow-left"></i> Regresar
+  </a>
+
+  <section class="credentials-section" id="formacion">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Trayectoria Académica &amp; Profesional</span>
+        <h2>Títulos, Certificaciones y Cursos</h2>
+        <p>Explora mis credenciales verificables, formación universitaria y especializaciones técnicas.</p>
+      </header>
+
+      <!-- Barra de búsqueda y filtros -->
+      <div class="controls-bar">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar por título, institución, año o habilidad..."
+            aria-label="Buscar credenciales"
+          />
+          <button id="clearSearch" class="clear-btn" title="Limpiar búsqueda" hidden>&times;</button>
+        </div>
+
+        <div class="filter-tabs" role="tablist" aria-label="Filtrar por categoría">
+          <button class="filter-btn active" data-filter="todos">Todos</button>
+          <button class="filter-btn" data-filter="titulo">Títulos</button>
+          <button class="filter-btn" data-filter="certificacion">Certificaciones</button>
+          <button class="filter-btn" data-filter="curso">Cursos</button>
+        </div>
+      </div>
+
+      <div class="results-meta">
+        <span id="resultsCount">Mostrando todas las credenciales</span>
+      </div>
+
+      <!-- Cuadrícula de diplomas -->
+      <div class="credentials-grid" id="credentialsGrid"></div>
+
+      <!-- Estado vacío -->
+      <div class="empty-state" id="emptyState" hidden>
+        <p>No se encontraron diplomas que coincidan con tu búsqueda.</p>
+        <button id="resetFiltersBtn" class="btn-secondary">Restablecer filtros</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de vista previa detallada -->
+  <div class="modal-backdrop" id="diplomaModal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="closeModalBtn" aria-label="Cerrar ventana">&times;</button>
+
+      <div class="modal-layout">
+        <!-- Columna izquierda: Visor inteligente (Vertical/Horizontal + PDF + Zoom) -->
+        <div class="modal-viewer-col">
+          <div class="viewer-toolbar">
+            <span class="viewer-hint" id="viewerHint">Haz clic en el diploma para ampliar</span>
+            <button type="button" class="zoom-toggle-btn" id="zoomToggleBtn">
+              <span id="zoomBtnText">+ Zoom</span>
+            </button>
+          </div>
+          <div class="viewer-stage" id="viewerStage">
+            <!-- El contenido (img o iframe PDF) se inyecta dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Columna derecha: Ficha técnica -->
+        <div class="modal-info-col">
+          <div class="modal-badges">
+            <span class="badge-category" id="modalCategory">Título</span>
+            <span class="badge-verified" id="modalVerifiedBadge" hidden>&#10003; Verificable</span>
+          </div>
+
+          <h3 id="modalTitle">Nombre del Diploma</h3>
+          <p class="modal-institution" id="modalInstitution">Institución Emisora</p>
+          <p class="modal-description" id="modalDescription">Descripción del programa.</p>
+
+          <dl class="meta-specs">
+            <div class="spec-item">
+              <dt>Fecha de emisión</dt>
+              <dd id="modalDate">—</dd>
+            </div>
+            <div class="spec-item">
+              <dt>Duración / Carga</dt>
+              <dd id="modalDuration">—</dd>
+            </div>
+            <div class="spec-item">
+              <dt>ID de Credencial</dt>
+              <dd id="modalCredentialId">—</dd>
+            </div>
+          </dl>
+
+          <div class="skills-block" id="modalSkillsBlock">
+            <h4>Competencias adquiridas</h4>
+            <div class="skills-tags" id="modalSkills"></div>
+          </div>
+
+          <div class="modal-actions">
+            <a id="modalVerifyLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-verify" hidden>
+              Verificar credencial &#8599;
+            </a>
+            <a id="modalDownloadLink" href="#" download class="btn-download">
+              Descargar archivo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
